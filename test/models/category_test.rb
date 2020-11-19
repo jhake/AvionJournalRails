@@ -14,6 +14,6 @@ class CategoryTest < ActiveSupport::TestCase
     category_2 = Category.new(name: "some name")
 
     category_1.save
-    assert_not category.save
+    assert_not category_2.save
   end
 end
