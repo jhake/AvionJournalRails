@@ -1,0 +1,10 @@
+
+<h2>
+  <%= @category.name %>
+</h2>
+<p>
+  <%= @category.description %>
+</p>
+
+<%= link_to 'Edit', edit_category_path(@category.id) %>
+<%= link_to 'Back to Categories', categories_path %>
