@@ -4,6 +4,11 @@ class CategoryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
+  test "should save Category" do
+    category = Category.new(name: "some name")
+    assert category.save
+  end
+
   test "should not save Category without name" do
     category = Category.new
     assert_not category.save
