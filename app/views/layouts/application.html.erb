@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Journal</title>
+    <title>Blog</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,38 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <div class="container">
+        <h1>Avion Rails Journal</h1>
+        <ul class="nav navbar-nav">
+          <li>Home</li>
+          <li class="active"><%= link_to 'Categories', categories_path %></li>
+        </ul>
+      </div>
+    </header>
+    <main>
+      <div id="overlayContainer">
+        <% flash.each do |type, msg| %>
+          <% if type == "success" %>
+          <div class="alert" style="background: #050;">
+          <% elsif type == "error" %>
+          <div class="alert" style="background: #A00;">
+          <% end %>
+            <%= msg %>
+          </div>
+        <% end %>
+      </div>
+      <div class="container">
+        <%= yield %>
+      </div>
+    </main>
   </body>
+  <script>
+    alerts = document.querySelectorAll(".alert");
+    for(alert of alerts) {
+      setInterval(() => {
+        alert.remove();
+      }, 2000);
+    }
+  </script>
 </html>

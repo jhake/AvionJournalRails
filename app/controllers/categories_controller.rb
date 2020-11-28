@@ -14,8 +14,10 @@ class CategoriesController < ApplicationController
     @category.name = params[:category][:name]
     @category.description = params[:category][:description]
     if @category.save
+        flash[:success] = "Successfully created '#{@category.name}'!"
         redirect_to categories_path
     else
+        flash.now[:error] = "Invalid inputs!"
         render :new
     end
   end
@@ -25,14 +27,17 @@ class CategoriesController < ApplicationController
   def update
     @category = Category.find(params[:id])  
     if @category.update(id: params[:id], name: params[:category][:name], description: params[:category][:description])
+      flash[:success] = "Successfully edited '#{@category.name}'!"
       redirect_to categories_path
     else
+      flash.now[:error] = "Invalid inputs!"
       render :edit
     end
   end
   def delete
     @category = Category.find(params[:id])  
     if @category.destroy
+        flash[:success] = "Successfully deleted '#{@category.name}'!"
         redirect_to categories_path
     else
         render :edit
