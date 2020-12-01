@@ -1,0 +1,21 @@
+
+<h2>
+  <% category = Category.find(@task.category.id) %>
+  <%= @task.name %> (<%= link_to category.name, show_category_path(category.id) %>)
+</h2>
+<p>
+  <%= @task.details %>
+</p>
+<% if @task.deadline %>
+<p>
+  Deadline: <%= @task.deadline %>
+</p>
+<% end %>
+<% if @task.completed %>
+<p>
+  Task is already completed
+</p>
+<% end %>
+
+<%= link_to "Edit", edit_task_path(@task.id) %>
+<%= link_to "Back to Tasks", tasks_path %>

@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class CategoriesIntegrationTest < ActionDispatch::IntegrationTest
   # test "the truth" do
@@ -8,7 +8,7 @@ class CategoriesIntegrationTest < ActionDispatch::IntegrationTest
     get new_category_path
     assert_response :success
 
-    post create_category_url, params: {category: {name: "create name", description: "create description"}}
+    post create_category_url, params: { category: { name: "create name", description: "create description" } }
     assert_redirected_to categories_path
     follow_redirect!
     assert_response :success
@@ -22,14 +22,14 @@ class CategoriesIntegrationTest < ActionDispatch::IntegrationTest
     get edit_category_path(category.id)
     assert_response :success
 
-    patch update_category_path, params: {category: {name: "edit name", description: "edit description"}}
+    patch update_category_path, params: { category: { name: "edit name", description: "edit description" } }
     assert_redirected_to categories_path
     follow_redirect!
     assert_response :success
     assert_select "h3", "edit name"
     assert_select "p", "edit description"
-    assert_select "h3", {count: 0, text: "First"}
-    assert_select "p", {count: 0, text: "First Description"}
+    assert_select "h3", { count: 0, text: "First" }
+    assert_select "p", { count: 0, text: "First Description" }
   end
 
   test "should delete category integration" do
@@ -42,8 +42,7 @@ class CategoriesIntegrationTest < ActionDispatch::IntegrationTest
     assert_redirected_to categories_path
     follow_redirect!
     assert_response :success
-    assert_select "h3", {count: 0, text: "First"}
-    assert_select "p", {count: 0, text: "First Description"}
+    assert_select "h3", { count: 0, text: "First" }
+    assert_select "p", { count: 0, text: "First Description" }
   end
 end
-

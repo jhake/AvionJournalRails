@@ -10,13 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_19_120048) do
+ActiveRecord::Schema.define(version: 2020_12_01_080337) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "name"
+    t.text "details"
+    t.datetime "deadline"
+    t.datetime "completed_at"
+    t.boolean "completed", default: false, null: false
+    t.integer "category_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["category_id"], name: "index_tasks_on_category_id"
   end
 
 end

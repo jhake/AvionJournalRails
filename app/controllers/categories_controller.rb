@@ -4,6 +4,7 @@ class CategoriesController < ApplicationController
   end
   def show
     @category = Category.find(params[:id])
+    @tasks = Task.where(category_id: @category.id)
     puts params
   end
   def new
