@@ -8,7 +8,7 @@ class CategoriesIntegrationTest < ActionDispatch::IntegrationTest
     get new_category_path
     assert_response :success
 
-    post "/categories", params: { category: { name: "create name", description: "create description" } }
+    post categories_path, params: { category: { name: "create name", description: "create description" } }
     assert_redirected_to categories_path
     follow_redirect!
     assert_response :success
@@ -22,7 +22,7 @@ class CategoriesIntegrationTest < ActionDispatch::IntegrationTest
     get edit_category_path(category.id)
     assert_response :success
 
-    patch "/categories/#{category.id}", params: { category: { name: "edit name", description: "edit description" } }
+    patch category_path(category.id), params: { category: { name: "edit name", description: "edit description" } }
     assert_redirected_to categories_path
     follow_redirect!
     assert_response :success
@@ -38,7 +38,7 @@ class CategoriesIntegrationTest < ActionDispatch::IntegrationTest
     get edit_category_path(category.id)
     assert_response :success
 
-    delete "/categories/#{category.id}"
+    delete category_path(category.id)
     assert_redirected_to categories_path
     follow_redirect!
     assert_response :success

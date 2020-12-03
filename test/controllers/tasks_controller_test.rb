@@ -6,7 +6,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   # end
   test "should create new task" do
     category = Category.first
-    post "/categories/#{category.id}/tasks", params: { task: { name: "create name", details: "create details", completed: false, category_id: category.id } }
+    post category_tasks_path(category.id), params: { task: { name: "create name", details: "create details", completed: false, category_id: category.id } }
     assert_redirected_to category_tasks_path
     assert Task.find_by(name: "create name")
   end
@@ -17,7 +17,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
   test "should update task" do
     task = Task.first
-    patch "/categories/#{task.category_id}/tasks/#{task.id}", params: { task: { name: "update name updated", details: "update details updated", completed: false, category_id: task.id } }
+    patch category_task_path(task.category_id, task.id), params: { task: { name: "update name updated", details: "update details updated", completed: false, category_id: task.id } }
     assert_redirected_to category_tasks_path
 
     task = Task.find(task.id)
@@ -26,7 +26,7 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
   test "should delete task" do
     task = Task.first
-    delete "/categories/#{task.category_id}/tasks/#{task.id}"
+    delete category_task_path(task.category_id, task.id)
     assert_redirected_to category_tasks_path
     assert_not Task.find_by(id: task.id)
   end

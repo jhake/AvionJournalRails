@@ -9,7 +9,7 @@ class TasksIntegrationTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     category = Category.first
-    post "/categories/#{category.id}/tasks", params: { task: { name: "create name", details: "create details", completed: false, category_id: category.id } }
+    post category_tasks_path(category.id), params: { task: { name: "create name", details: "create details", completed: false, category_id: category.id } }
 
     assert_redirected_to category_tasks_path
     follow_redirect!
@@ -27,7 +27,7 @@ class TasksIntegrationTest < ActionDispatch::IntegrationTest
     get edit_category_task_path(category.id, task.id)
     assert_response :success
 
-    patch "/categories/#{task.category_id}/tasks/#{task.id}", params: { task: { name: "edit name", details: "edit details", completed: false, category_id: category.id } }
+    patch category_task_path(task.category_id, task.id), params: { task: { name: "edit name", details: "edit details", completed: false, category_id: category.id } }
     assert_redirected_to category_tasks_path
     follow_redirect!
     assert_response :success
@@ -43,7 +43,7 @@ class TasksIntegrationTest < ActionDispatch::IntegrationTest
     get edit_category_task_path(task.category_id, task.id)
     assert_response :success
 
-    delete "/categories/#{task.category_id}/tasks/#{task.id}"
+    delete category_task_path(task.category_id, task.id)
     assert_redirected_to category_tasks_path
     follow_redirect!
     assert_response :success
