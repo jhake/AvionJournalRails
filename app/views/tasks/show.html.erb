@@ -17,5 +17,10 @@
 </p>
 <% end %>
 
+<% if @category %>
 <%= link_to "Edit", edit_category_task_path(@category.id, @task.id) %>
 <%= link_to "Back to #{@category.name} Tasks", category_tasks_path(@category.id) %>
+<% else %>
+<%= link_to "Edit", edit_task_path(@task.id) %>
+<%= link_to "Back to Tasks", tasks_path %>
+<% end %>

@@ -1,3 +1,5 @@
+<% if @category %>
+
 <%= form_with model: [@category, @task], local: true, method: :patch do |f|  %>
   <p>
     <% if @task.errors.any?  %>
@@ -35,3 +37,48 @@
   <%= link_to 'Delete', category_task_path(@category.id, @task.id), method: :delete, data: {confirm: "Are you sure?"} %>
   <%=  link_to "Back to #{@category.name} Tasks", category_tasks_path(@category.id) %>
 </div>
+
+<% else %>
+<%= form_with model: [@task], local: true, method: :patch do |f|  %>
+  <p>
+    <% if @task.errors.any?  %>
+      <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li>
+            <%= message %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>     
+  </p>
+  <p>
+    <%= f.label :name %>
+    <%= f.text_field :name, :class => 'name' %>
+  </p>
+  <p>
+    <%= f.label :details %>
+    <%= f.text_area :details %>
+  </p>
+  <p>
+    <%= f.label :deadline %>
+    <%= f.datetime_field :deadline %>
+  </p>
+  <p>
+    <%= f.label :completed %>
+    <%= f.check_box :completed %>
+  </p>
+  <p>
+    <%= f.label :category_id, "Category" %>
+    <%= f.select :category_id, Category.all.collect { |c| [c.name, c.id] } %>
+  </p>
+  <p>
+    <%= f.submit "Save", :class => 'submit' %>
+  </p>
+<% end %>
+
+<div class="others">
+  <%= link_to 'Delete', task_path(@task.id), method: :delete, data: {confirm: "Are you sure?"} %>
+  <%=  link_to "Back to Tasks", tasks_path %>
+</div>
+
+<% end %>

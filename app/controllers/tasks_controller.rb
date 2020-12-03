@@ -7,8 +7,13 @@ class TasksController < ApplicationController
   end
 
   def index
-    @tasks_completed = Task.where(completed: true, category_id: @category.id).order(deadline: :desc)
-    @tasks_incomplete = Task.where(completed: false, category_id: @category.id).order(deadline: :desc)
+    if @category
+      @tasks_completed = Task.where(completed: true, category_id: @category.id).order(deadline: :desc)
+      @tasks_incomplete = Task.where(completed: false, category_id: @category.id).order(deadline: :desc)
+    else
+      @tasks_completed = Task.where(completed: true).order(deadline: :desc)
+      @tasks_incomplete = Task.where(completed: false).order(deadline: :desc)
+    end
   end
 
   def show
@@ -26,10 +31,18 @@ class TasksController < ApplicationController
     @task.deadline = params[:task][:deadline]
     @task.completed_at = params[:task][:completed_at]
     @task.completed = params[:task][:completed]
-    @task.category_id = params[:category_id]
+    if @category
+      @task.category_id = params[:category_id]
+    else
+      @task.category_id = params[:task][:category_id]
+    end
     if @task.save
       flash[:success] = "Successfully created '#{@task.name}'!"
-      redirect_to category_tasks_path
+      if @category
+        redirect_to category_tasks_path
+      else
+        redirect_to tasks_path
+      end
     else
       flash.now[:error] = "Invalid inputs!"
       render :new
@@ -42,9 +55,18 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find(params[:id])
-    if @task.update(id: params[:id], name: params[:task][:name], details: params[:task][:details], deadline: params[:task][:deadline], completed_at: params[:task][:completed_at], completed: params[:task][:completed], category_id: params[:category_id])
-      flash[:success] = "Successfully edited '#{@task.name}'!"
-      redirect_to category_tasks_path
+    if @category
+      category_id = @category.id
+    else
+      category_id = params[:task][:category_id]
+    end
+    if @task.update(id: params[:id], name: params[:task][:name], details: params[:task][:details], deadline: params[:task][:deadline], completed_at: params[:task][:completed_at], completed: params[:task][:completed], category_id: category_id)
+      flash[:success] = "Successfully edited '#{@task.name}'!"   
+      if @category
+        redirect_to category_tasks_path
+      else
+        redirect_to tasks_path
+      end
     else
       flash.now[:error] = "Invalid inputs!"
       render :edit
@@ -55,7 +77,11 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
     if @task.destroy
       flash[:success] = "Successfully deleted '#{@task.name}'!"
-      redirect_to category_tasks_path
+      if @category
+        redirect_to category_tasks_path
+      else
+        redirect_to tasks_path
+      end
     else
       render :edit
     end

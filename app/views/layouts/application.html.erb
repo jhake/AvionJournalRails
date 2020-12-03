@@ -28,6 +28,13 @@
           <% end %>
             <%= link_to 'Categories', categories_path %>
           </li>
+          <% if current_page?("/tasks") %>
+          <li class="active">
+          <% else %>
+          <li>
+          <% end %>
+            <%= link_to 'All Tasks', tasks_path %>
+          </li>
         </ul>
       </div>
     </header>

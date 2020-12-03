@@ -1,4 +1,6 @@
-<h1>Tasks due today</h1>
+<%= link_to "New Task", new_task_path, class: "button" %>
+
+<h2>Tasks due today</h2>
 
 <% @tasks_incomplete.each do |task| %>
   <% category = Category.find(task.category_id) %>

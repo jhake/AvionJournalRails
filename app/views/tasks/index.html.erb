@@ -1,11 +1,21 @@
-<%= link_to "New Task", new_category_task_path, class: "button" %>
+<% if @category%>
+<%= link_to "New #{@category.name} Task", new_category_task_path, class: "button" %>
+<% else %>
+<%= link_to "New Task", new_task_path, class: "button" %>
+<% end %>
 
-<h2><%= @category.name %> Tasks</h2>
+<h2><% if @category%><%= @category.name %><% else %>All<% end %> Tasks</h2>
 <% @tasks_incomplete.each do |task| %>
   <% category = Category.find(task.category_id) %>
   <div class="task-item">
-    <h3><%= link_to task.name, category_task_path(@category.id, task.id) %></h3>
-    <%= link_to "Edit", edit_category_task_path(@category.id, task.id) %>
+    <h3>
+      <% if @category %>
+      <%= link_to task.name, category_task_path(task.category_id, task.id) %>
+      <% else %>
+      <%= link_to task.name, task_path(task.id) %> (<%= link_to category.name, category_path(category.id) %>)
+      <% end %>
+    </h3>
+    <%= link_to "Edit", edit_task_path(task.id) %>
     <p><%= task.details %></p>
     <ul>
       <% if task.deadline %>
@@ -18,13 +28,19 @@
 <% @tasks_completed.each do |task| %>
   <% category = Category.find(task.category_id) %>
   <div class="task-item completed">
-    <h3><%= link_to task.name, category_task_path(@category.id, task.id) %></h3>
+    <h3>
+      <% if @category %>
+      <%= link_to task.name, category_task_path(task.category_id, task.id) %>
+      <% else %>
+      <%= link_to task.name, task_path(task.id) %> (<%= link_to category.name, category_path(category.id) %>)
+      <% end %>
+    </h3>
     <p><%= task.details %></p>
     <ul>
       <% if task.deadline %>
         <li>Deadline: <%= task.deadline %></li>
       <% end %>
     </ul>
-    <%= link_to "Edit", edit_category_task_path(@category.id, task.id) %>
+    <%= link_to "Edit", edit_task_path(task.id) %>
   </div>
 <% end %>

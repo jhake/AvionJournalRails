@@ -1,4 +1,6 @@
 
+<%= link_to "New #{@category.name} Task", new_category_task_path(@category.id), class: "button" %>
+
 <h2>
   <%= @category.name %>
 </h2>
