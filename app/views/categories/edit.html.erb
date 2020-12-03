@@ -10,7 +10,7 @@
   <% end %>     
 </p>
 
-<%= form_with scope: :category, url: update_category_path, local: true, method: :patch do |f|  %>
+<%= form_with model: [@category], local: true, method: :patch do |f|  %>
   <p>
     <%= f.label :name %>
     <%= f.text_field "name", :class => 'name' %>
@@ -25,6 +25,6 @@
 <% end %>
 
 <div class="others">
-  <%= link_to 'Delete', delete_category_path(@category.id), method: :delete, data: {confirm: "Are you sure?"} %>
+  <%= link_to 'Delete', category_path(@category.id), method: :delete, data: {confirm: "Are you sure?"} %>
   <%=  link_to 'Back to Categories', categories_path %>
 </div>

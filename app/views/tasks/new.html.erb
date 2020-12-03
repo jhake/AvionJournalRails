@@ -1,4 +1,6 @@
-<%= form_with scope: :task, url: create_task_path, local: true do |f| %>
+<h2>Create new <%= @category.name %> task</h2>
+
+<%= form_with model: [@category, @task], local: true do |f| %>
   <p>
     <% if @task.errors.any? %>
       <ul>
@@ -27,14 +29,10 @@
     <%= f.check_box :completed %>
   </p>
   <p>
-    <%= f.label :category_id, "Category" %>
-    <%= f.select :category_id, Category.all.collect { |c| [c.name, c.id] } %>
-  </p>
-  <p>
     <%= f.submit "Save", :class => "submit" %>
   </p>
 
 <% end %>
 <div class="others">
-  <%= link_to "Back to Tasks", tasks_path %>
+  <%= link_to "Back to #{@category.name} Tasks", category_tasks_path(@category.id) %>
 </div>

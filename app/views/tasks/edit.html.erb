@@ -1,4 +1,4 @@
-<%= form_with scope: :task, url: update_task_path, local: true, method: :patch do |f|  %>
+<%= form_with model: [@category, @task], local: true, method: :patch do |f|  %>
   <p>
     <% if @task.errors.any?  %>
       <ul>
@@ -27,15 +27,11 @@
     <%= f.check_box :completed %>
   </p>
   <p>
-    <%= f.label :category_id, "Category" %>
-    <%= f.select :category_id, Category.all.collect { |c| [ c.name, c.id ] } %>
-  </p>
-  <p>
     <%= f.submit "Save", :class => 'submit' %>
   </p>
 <% end %>
 
 <div class="others">
-  <%= link_to 'Delete', delete_task_path(@task.id), method: :delete, data: {confirm: "Are you sure?"} %>
-  <%=  link_to 'Back to Tasks', tasks_path %>
+  <%= link_to 'Delete', category_task_path(@category.id, @task.id), method: :delete, data: {confirm: "Are you sure?"} %>
+  <%=  link_to "Back to #{@category.name} Tasks", category_tasks_path(@category.id) %>
 </div>

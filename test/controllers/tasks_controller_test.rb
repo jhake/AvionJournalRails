@@ -6,19 +6,19 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   # end
   test "should create new task" do
     category = Category.first
-    post create_task_url, params: { task: { name: "create name", details: "create details", completed: false, category_id: category.id } }
-    assert_redirected_to tasks_path
+    post "/categories/#{category.id}/tasks", params: { task: { name: "create name", details: "create details", completed: false, category_id: category.id } }
+    assert_redirected_to category_tasks_path
     assert Task.find_by(name: "create name")
   end
   test "should get edit" do
     task = Task.first
-    get edit_task_path(task.id)
+    get edit_category_task_path(task.category_id, task.id)
     assert_response :success
   end
   test "should update task" do
     task = Task.first
-    patch update_task_url(task.id), params: { task: { name: "update name updated", details: "update details updated", completed: false, category_id: task.id } }
-    assert_redirected_to tasks_path
+    patch "/categories/#{task.category_id}/tasks/#{task.id}", params: { task: { name: "update name updated", details: "update details updated", completed: false, category_id: task.id } }
+    assert_redirected_to category_tasks_path
 
     task = Task.find(task.id)
     assert_equal(task.name, "update name updated")
@@ -26,8 +26,8 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
   test "should delete task" do
     task = Task.first
-    delete delete_task_path(task.id)
-    assert_redirected_to tasks_path
+    delete "/categories/#{task.category_id}/tasks/#{task.id}"
+    assert_redirected_to category_tasks_path
     assert_not Task.find_by(id: task.id)
   end
 end
