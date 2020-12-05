@@ -19,7 +19,7 @@
     <p><%= task.details %></p>
     <ul>
       <% if task.deadline %>
-        <li>Deadline: <%= task.deadline %></li>
+        <li>Deadline: <%= task.deadline.strftime '%Y-%m-%d %H:%M:%S' %></li>
       <% end %>
     </ul>
   </div>
@@ -38,7 +38,7 @@
     <p><%= task.details %></p>
     <ul>
       <% if task.deadline %>
-        <li>Deadline: <%= task.deadline %></li>
+        <li>Deadline: <%= task.deadline.strftime '%Y-%m-%d %H:%M:%S' %></li>
       <% end %>
     </ul>
     <%= link_to "Edit", edit_task_path(task.id) %>
