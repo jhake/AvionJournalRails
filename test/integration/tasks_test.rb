@@ -1,6 +1,11 @@
 require "test_helper"
 
 class TasksIntegrationTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+  def setup
+    @user = User.first
+    sign_in @user
+  end
   # test "the truth" do
   #   assert true
   # end
@@ -21,13 +26,13 @@ class TasksIntegrationTest < ActionDispatch::IntegrationTest
   test "should edit task integration" do
     category = Category.first
 
-    task = Task.new(name: "new name", details: "new details", completed: false, category_id: category.id)
+    task = Task.new(name: "new name", details: "new details", completed: false, category_id: category.id, user_id: @user.id )
     task.save
 
     get edit_category_task_path(category.id, task.id)
     assert_response :success
 
-    patch category_task_path(task.category_id, task.id), params: { task: { name: "edit name", details: "edit details", completed: false, category_id: category.id } }
+    patch category_task_path(task.category_id, task.id), params: { task: { name: "edit name", details: "edit details", completed: false, category_id: category.id, user_id: @user.id  } }
     assert_redirected_to category_tasks_path
     follow_redirect!
     assert_response :success

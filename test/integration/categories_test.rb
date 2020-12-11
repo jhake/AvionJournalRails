@@ -1,6 +1,11 @@
 require "test_helper"
 
 class CategoriesIntegrationTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+  def setup
+    @user = User.first
+    sign_in @user
+  end
   # test "the truth" do
   #   assert true
   # end
