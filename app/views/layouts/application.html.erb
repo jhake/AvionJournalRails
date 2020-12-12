@@ -12,7 +12,14 @@
   <body>
     <header>
       <div class="container">
-        <h1>Avion Rails Journal</h1>
+        <div class="header-flex">
+          <h1>Avion Rails Journal</h1>
+          <% if current_user %>
+          <p>
+          <strong><%= current_user.email %></strong><br>
+          <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %></p>
+          <% end %>
+        </div>
         <ul class="nav navbar-nav">
           <% if user_signed_in? %>
             <% if current_page?("/") %>
@@ -36,9 +43,6 @@
             <% end %>
               <%= link_to 'All Tasks', tasks_path %>
             </li>
-            <li>
-              <%= link_to 'Sign Out', destroy_user_session_path, method: :delete %>
-            </li>
           <% else %>
             <% if current_page?("/users/sign_in") %>
             <li class="active">
@@ -61,10 +65,10 @@
     <main>
       <div id="overlayContainer">
         <% flash.each do |type, msg| %>
-          <% if type == "success" %>
-          <div class="alert" style="background: #050;">
-          <% elsif type == "error" %>
+          <% if type == "error" %>
           <div class="alert" style="background: #A00;">
+          <% else %>
+          <div class="alert" style="background: #050;">
           <% end %>
             <%= msg %>
           </div>
