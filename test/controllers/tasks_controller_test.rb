@@ -1,24 +1,29 @@
 require "test_helper"
 
 class TasksControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+  def setup
+    @user = User.first
+    sign_in @user
+  end
   # test "the truth" do
   #   assert true
   # end
   test "should create new task" do
     category = Category.first
-    post create_task_url, params: { task: { name: "create name", details: "create details", completed: false, category_id: category.id } }
-    assert_redirected_to tasks_path
+    post category_tasks_path(category.id), params: { task: { name: "create name", details: "create details", completed: false, category_id: category.id, user_id: @user.id } }
+    assert_redirected_to category_tasks_path
     assert Task.find_by(name: "create name")
   end
   test "should get edit" do
     task = Task.first
-    get edit_task_path(task.id)
+    get edit_category_task_path(task.category_id, task.id, user_id: @user.id)
     assert_response :success
   end
   test "should update task" do
     task = Task.first
-    patch update_task_url(task.id), params: { task: { name: "update name updated", details: "update details updated", completed: false, category_id: task.id } }
-    assert_redirected_to tasks_path
+    patch category_task_path(task.category_id, task.id), params: { task: { name: "update name updated", details: "update details updated", completed: false, category_id: task.id, user_id: @user.id } }
+    assert_redirected_to category_tasks_path
 
     task = Task.find(task.id)
     assert_equal(task.name, "update name updated")
@@ -26,8 +31,8 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
   test "should delete task" do
     task = Task.first
-    delete delete_task_path(task.id)
-    assert_redirected_to tasks_path
+    delete category_task_path(task.category_id, task.id)
+    assert_redirected_to category_tasks_path
     assert_not Task.find_by(id: task.id)
   end
 end

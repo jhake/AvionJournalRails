@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @categories = Category.all
   end
@@ -35,7 +37,7 @@ class CategoriesController < ApplicationController
       render :edit
     end
   end
-  def delete
+  def destroy
     @category = Category.find(params[:id])  
     if @category.destroy
         flash[:success] = "Successfully deleted '#{@category.name}'!"

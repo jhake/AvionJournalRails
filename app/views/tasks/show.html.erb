@@ -1,14 +1,14 @@
 
 <h2>
   <% category = Category.find(@task.category.id) %>
-  <%= @task.name %> (<%= link_to category.name, show_category_path(category.id) %>)
+  <%= @task.name %> (<%= link_to category.name, category_path(category.id) %>)
 </h2>
 <p>
   <%= @task.details %>
 </p>
 <% if @task.deadline %>
 <p>
-  Deadline: <%= @task.deadline %>
+  Deadline: <%= @task.deadline.strftime '%Y-%m-%d %H:%M:%S' %>
 </p>
 <% end %>
 <% if @task.completed %>
@@ -17,5 +17,10 @@
 </p>
 <% end %>
 
+<% if @category %>
+<%= link_to "Edit", edit_category_task_path(@category.id, @task.id) %>
+<%= link_to "Back to #{@category.name} Tasks", category_tasks_path(@category.id) %>
+<% else %>
 <%= link_to "Edit", edit_task_path(@task.id) %>
 <%= link_to "Back to Tasks", tasks_path %>
+<% end %>

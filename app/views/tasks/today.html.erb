@@ -1,16 +1,16 @@
-<h1>Tasks due today</h1>
-
 <%= link_to "New Task", new_task_path, class: "button" %>
+
+<h2>Tasks due today</h2>
 
 <% @tasks_incomplete.each do |task| %>
   <% category = Category.find(task.category_id) %>
   <div class="task-item">
-    <h3><%= link_to task.name, show_task_path(task.id) %> (<%= link_to category.name, show_category_path(category.id) %>)</h3>
-    <%= link_to "Edit", edit_task_path(task.id) %>
+    <h3><%= link_to task.name, category_task_path(category.id, task.id) %> (<%= link_to category.name, category_path(category.id) %>)</h3>
+    <%= link_to "Edit", edit_category_task_path(category.id, task.id) %>
     <p><%= task.details %></p>
     <ul>
       <% if task.deadline %>
-        <li>Deadline: <%= task.deadline %></li>
+        <li>Deadline: <%= task.deadline.strftime '%Y-%m-%d %H:%M:%S' %></li>
       <% end %>
     </ul>
   </div>
@@ -19,13 +19,13 @@
 <% @tasks_completed.each do |task| %>
   <% category = Category.find(task.category_id) %>
   <div class="task-item completed">
-    <h3><%= link_to task.name, show_task_path(task.id) %> (<%= link_to category.name, show_category_path(category.id) %>)</h3>
+    <h3><%= link_to task.name, category_task_path(category.id, task.id) %> (<%= link_to category.name, category_path(category.id) %>)</h3>
     <p><%= task.details %></p>
     <ul>
       <% if task.deadline %>
-        <li>Deadline: <%= task.deadline %></li>
+        <li>Deadline: <%= task.deadline.strftime '%Y-%m-%d %H:%M:%S' %></li>
       <% end %>
     </ul>
-    <%= link_to "Edit", edit_task_path(task.id) %>
+    <%= link_to "Edit", edit_category_task_path(category.id, task.id) %>
   </div>
 <% end %>
